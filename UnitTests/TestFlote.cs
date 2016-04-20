@@ -105,13 +105,9 @@ namespace UnitTests
             Brod b1 = new Brod(p1);
             f.DodajBrod(b1);
 
-            var p2 = m.DajPoljaZaBrod(Smjer.Vertikalno, new Polje(1, 3), 4);
+            var p2 = m.DajPoljaZaBrod(Smjer.Vertikalno, new Polje(1, 3), 2);
             Brod b2 = new Brod(p2);
             f.DodajBrod(b2);
-
-            var p3 = m.DajPoljaZaBrod(Smjer.Horizontalno, new Polje(4, 5), 2);
-            Brod b3 = new Brod(p3);
-            f.DodajBrod(b3);
 
             Assert.AreEqual(RezultatGađanja.Pogodak, f.Gađaj(new Polje(0, 1)));
             Assert.AreEqual(RezultatGađanja.Pogodak, f.Gađaj(new Polje(0, 2)));
