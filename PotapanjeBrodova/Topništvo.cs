@@ -24,7 +24,7 @@ namespace PotapanjeBrodova
 
         public void ObradiGađanje(RezultatGađanja rezultat)
         {
-
+            // implementirati logiku za dz
         }
 
         private void PromjeniTaktikuUNapipavanje()
@@ -49,4 +49,3 @@ namespace PotapanjeBrodova
         private Flota flota;
     }
 }
-()
