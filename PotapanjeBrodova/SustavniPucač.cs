@@ -62,8 +62,22 @@ namespace PotapanjeBrodova
                 liste.Add(l2);
             return liste;
         }
+
+        public void EvidentirajRezultat(RezultatGađanja rezultat)
+        {
+            throw new NotImplementedException();
+        }
+
         List<Polje> pogođenaPolja;
         Mreža mreža;
         Random slučajni = new Random();
+
+        public IEnumerable<Polje> PogođenaPolja
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
