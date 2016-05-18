@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -7,10 +8,11 @@ namespace PotapanjeBrodova
 {
     public enum TaktikaGađanja
     {
-            Napipavanje,
-            Okruživanje,
-            SustavnoUništavanje
+        Napipavanje,
+        Okruživanje,
+        SustavnoUništavanje
     }
+
     public class Topništvo
     {
         public Topništvo(int redaka, int stupaca, int[] duljineBrodova)
@@ -18,8 +20,9 @@ namespace PotapanjeBrodova
             mreža = new Mreža(redaka, stupaca);
             this.duljineBrodova = new List<int>(duljineBrodova);
             this.duljineBrodova.Sort((d1, d2) => d2 - d1);
-            PromjeniTaktikuUNapipavanje();
+            PromijeniTaktikuUNapipavanje();
         }
+
         public Polje UputiPucanj()
         {
             return pucač.UputiPucanj();
@@ -27,31 +30,56 @@ namespace PotapanjeBrodova
 
         public void ObradiGađanje(RezultatGađanja rezultat)
         {
-            // implementirati logiku za dz
+            switch (rezultat)
+            {
+                case RezultatGađanja.Potonuće:
+                    PromijeniTaktikuUNapipavanje();
+                    break;
+                case RezultatGađanja.Pogodak:
+                    switch (TrenutnaTaktika)
+                    {
+                        case TaktikaGađanja.Napipavanje:
+                            PromijeniTaktikuUOkruživanje();
+                            break;
+                        case TaktikaGađanja.Okruživanje:
+                            PromijeniTaktikuUSustavnoUništavanje();
+                            break;
+                        case TaktikaGađanja.SustavnoUništavanje:
+                            break;
+                        default:
+                            Debug.Assert(false, string.Format("Nepodržana taktika {0}", TrenutnaTaktika.ToString()));
+                            break;
+                    }
+                    break;
+                case RezultatGađanja.Promašaj:
+                    break;
+                default:
+                    Debug.Assert(false, string.Format("Nepodržani rezultat gađanja {0}", rezultat.ToString()));
+                    break;
+            }
         }
 
-        private void PromjeniTaktikuUNapipavanje()
+        private void PromijeniTaktikuUNapipavanje()
         {
             TrenutnaTaktika = TaktikaGađanja.Napipavanje;
             pucač = new Napipač(mreža, duljineBrodova[0]);
-
         }
 
-        private void PromjeniTaktikuUSustavnoUništavanje()
-        {
-            TrenutnaTaktika = TaktikaGađanja.SustavnoUništavanje;
-        }
-
-        private void PromjeniTaktikuUOkruživanje()
+        private void PromijeniTaktikuUOkruživanje()
         {
             TrenutnaTaktika = TaktikaGađanja.Okruživanje;
+        }
+
+        private void PromijeniTaktikuUSustavnoUništavanje()
+        {
+            TrenutnaTaktika = TaktikaGađanja.SustavnoUništavanje;
         }
 
         public TaktikaGađanja TrenutnaTaktika
         {
             get; private set;
         }
-        private Flota flota;
+
         IPucač pucač;
         Mreža mreža;
         List<int> duljineBrodova;
